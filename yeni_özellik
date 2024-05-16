@@ -1,0 +1,41 @@
+import random
+import discord
+from bot_mantik import gen_pass
+
+# ayricaliklar (intents) değişkeni botun ayrıcalıklarını depolayacak
+intents = discord.Intents.default()
+# Mesajları okuma ayrıcalığını etkinleştirelim
+intents.message_content = True
+# client (istemci) değişkeniyle bir bot oluşturalım ve ayrıcalıkları ona aktaralım
+client = discord.Client(intents=intents)
+
+@client.event
+async def on_ready():
+    print(f'{client.user} olarak giriş yaptık.')
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+    if message.content.startswith('$merhaba'):
+        await message.channel.send("Selam!")
+    elif message.content.startswith('$bye'):
+        await message.channel.send("\\U0001f642")
+    elif message.content.startswith('$pass'):
+        await message.channel.send("gen_pass()")
+    elif message.content.startswith("$nasılsın"):
+        await message.channel.send("iyi sen")
+    elif message.content.startswith("iyi sen"):
+        await message.channel.send("iyi olmana sevindim")
+    else:
+        await message.channel.send(message.content)
+def emoji_olusturucu():
+    emoji = ["\U0001f600", "\U0001f642", "\U0001F606", "\U0001F923"]
+    return random.choice(emoji)
+def yazi_tura():
+    para = random.randint(0, 2)
+    if para == 0:
+        return "YAZI"
+    else:
+        return "TURA"
+client.run("TOKEN")
